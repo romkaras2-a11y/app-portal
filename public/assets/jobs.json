@@ -1,0 +1,64 @@
+[{ 
+    "id": "1", 
+    "title": "Senior Angular Developer", 
+    "department": "Engineering", 
+    "location": "Berlin", 
+    "description": "Wir suchen einen erfahrenen Angular-Entwickler mit tiefem Verständnis für Signals und modernen Control Flow.", 
+    "requirements": ["5+ Jahre Erfahrung", "Angular Expertise", "TypeScript"], 
+    "isActive": true 
+  },
+  { 
+    "id": "2", 
+    "title": "Junior Frontend Developer (m/w/d)", 
+    "department": "Engineering", 
+    "location": "München", 
+    "description": "Starte deine Karriere in unserem Frontend-Team! Du unterstützt uns bei der Entwicklung moderner Webanwendungen mit HTML, CSS und ersten Angular-Komponenten.", 
+    "requirements": ["Grundkenntnisse in JavaScript/TypeScript", "Erste Erfahrung mit HTML & CSS/SCSS", "Lernbereitschaft und Teamgeist"], 
+    "isActive": true 
+  },
+  { 
+    "id": "3", 
+    "title": "Product Owner - HR Solutions", 
+    "department": "Product Management", 
+    "location": "Hamburg (Hybrid)", 
+    "description": "Als Product Owner gestaltest du die Zukunft unserer Recruiting-Plattform. Du schneidest User Stories, pflegst das Backlog und arbeitest eng mit den Entwicklern zusammen.", 
+    "requirements": ["Erfahrung als Product Owner oder Scrum Master", "Starke Kommunikationsfähigkeiten", "Fließend Deutsch und Englisch"], 
+    "isActive": true 
+  },
+  { 
+    "id": "4", 
+    "title": "UI/UX Designer", 
+    "department": "Design", 
+    "location": "Köln / Remote", 
+    "description": "Du hast ein Auge für Ästhetik und Nutzerführung? Gestalte intuitive Interfaces, erstelle interaktive Prototypen und führe Nutzertests für unsere neuen Features durch.", 
+    "requirements": ["Sicherer Umgang mit Figma oder Adobe XD", "Portfolio mit Web- oder Mobile-Designs", "Verständnis für barrierefreie Oberflächen"], 
+    "isActive": true 
+  },
+  { 
+    "id": "5", 
+    "title": "DevOps Engineer (Inaktiv zum Testen)", 
+    "department": "Infrastructure", 
+    "location": "Remote", 
+    "description": "Diese Stelle ist inaktiv und sollte durch die @if-Bedingung in deiner Job-Liste im HTML-Template nicht angezeigt werden.", 
+    "requirements": ["Docker & Kubernetes", "CI/CD Pipelines (GitHub Actions)", "Cloud (AWS oder Azure)"], 
+    "isActive": false 
+  },
+  { 
+    "id": "6", 
+    "title": "PHP Entwickler / Web Developer (m/w/d)", 
+    "department": "Web Development", 
+    "location": "Bielefeld,intedia GmbH", 
+    "description": "Du konzipierst, entwickelst und implementierst webbasierte Anwendungen und Schnittstellen im Bereich E-Business / E-Commerce.", 
+    "requirements": ["PHP und JavaScript", "Professionell / Ambitious", "Ownership"], 
+    "isActive": true 
+  },
+  { 
+    "id": "7", 
+    "title": "Full Stack Developer PHP / JavaScript / TypeScript (m/w/d)", 
+    "department": "IT", 
+    "location": "Hamburg oder Remote, DEMV Systems Gmbh", 
+    "description": "Entwicklung von hochwertigem Code auf Basis von PHP. Lösungsorientiertes, strukturiertes und eigenständiges Arbeiten", 
+    "requirements": ["Praktische Erfahrungen in der Entwicklung komplexer PHP-Applikationen", "Gute Deutschkenntnisse", "Fundierte Erfahrungen in Javascript und einem gängigen Framework wie Vue.js oder Angular"], 
+    "isActive": true 
+  }  
+]

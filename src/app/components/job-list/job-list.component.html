@@ -1,0 +1,55 @@
+<!-- components/job-list/job-list.component.html -->
+<main class="container">
+    <h2>Offene Stellenanzeigen (Aus lokaler JSON-Datei)</h2>
+    <!-- Filterzeile (bleibt optisch gleich) -->
+    <div class="filter-wrapper">
+      <input type="text" placeholder="Jobtitel oder Abteilung suchen..." (input)="onSearchChange($event)" class="filter-input">
+      <input type="text" placeholder="Standort filtern..." (input)="onLocationChange($event)" class="filter-input">
+    </div>
+
+    @if (isLoading()) {
+      <p>Lade Jobs aus lokaler Konfiguration...</p>
+    } @else {
+      <!-- NEU: Schleife durch das berechnete filteredJobs() Signal -->
+      @for (job of filteredJobs(); track job.id) {
+         @if (job.isActive) {    
+              <div class="job-card" (click)="selectJob(job.id, selectedJobTarget)" style="cursor: pointer;"> 
+                  <h3>{{ job.title }}</h3> 
+                  <p><strong>Abteilung:</strong> {{ job.department }}</p> 
+                  <p><strong>Location:</strong> {{ job.location }}</p>
+                  <div></div> 
+                  <p><strong>Beschreibung:</strong> {{ job.description.substring(0, 180) }}...</p>  
+                  
+                  <div class="btn-box">
+                    <a [routerLink]="['/jobs', job.id, 'apply']" class="btn-apply">Jetzt bewerben</a> 
+                  </div>
+                </div> 
+          }      
+      } @empty { 
+        <p>Keine Stellenanzeigen entsprechen deinen Suchkriterien.</p>
+      }
+    }
+    <h2 #selectedJobTarget>Ausgewählter Job (Detailansicht)</h2>
+    @if (selectedJob(); as job) {
+      <div class="job-card mechanical-details"> 
+        <h3>{{ job.title }}</h3> 
+        <p><strong>Abteilung:</strong> {{ job.department }}</p> 
+        <p><strong>Location:</strong> {{ job.location }}</p> 
+        <p>{{ job.description.substring(0, 180) }}</p>
+        
+        <div class="skill-box">
+          <h4 >Gewünschte Skills:</h4>
+          <ul>
+              @for (req of job.requirements; track $index) {
+                  <li>{{ req }}</li>
+              }
+          </ul>
+        </div>
+        <div class="btn-box">                   
+           <a [routerLink]="['/jobs', job.id, 'apply']" class="register-button">Jetzt bewerben</a>
+        </div> 
+      </div>
+    } @else {
+      <p style="color: #888; font-style: italic;">Klicke oben auf eine Jobkarte, um die Details anzuzeigen.</p>
+    }
+</main>

@@ -1,0 +1,170 @@
+// Hauptcontainer für die gesamte Seite
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  // Überschriften ersten Grades für die Sektionen
+  h2 {
+    font-size: 1.75rem;
+    color: #222;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 8px;
+    
+    &:first-of-type {
+      margin-top: 0; // Erste Überschrift braucht keinen Abstand nach oben
+    }
+  }
+}
+
+// Grid-Layout für die Liste der offenen Stellenanzeigen
+// Sucht alle Job-Karten, die direkte Nachfahren des Containers sind (außer dem ausgewählten Job am Ende)
+.container > .job-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 2rem;
+  
+  // Da die Karten im Loop generiert werden, heben wir das Grid-Verhalten 
+  // eine Ebene höher, falls du sie später in ein <div class="job-grid"> packst.
+  // Für dein aktuelles HTML sorgt dieses Styling für ein sauberes Block-Layout untereinander mit Abständen:
+}
+
+// Das Design einer einzelnen Job-Karte
+.job-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  h2, h3 {
+    font-size: 1.35rem;
+    color: #0056b3;
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 6px 0;
+
+    // Hebt Labels wie "Abteilung:" oder "Location:" leicht hervor
+    strong {
+      color: #333;
+    }
+  }
+
+  h4 {
+    font-size: 15px;
+    color: #333;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  ul {
+    margin: 0 0 20px 0;
+    padding-left: 20px;
+
+    li {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+// Gemeinsames Styling für die Bewerbungs-Buttons (a-Tags)
+.btn-apply, 
+.register-button {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  width: 100%; // Macht den Button auf Mobilgeräten vollflächig
+  box-sizing: border-box;
+  max-height: 40px; 
+  @media (min-width: 576px) {
+    width: auto; // Richtige Button-Breite auf größeren Bildschirmen
+  }
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+// Spezifischer Button für den ausgewählten Job (falls du eine andere Farbe möchtest)
+.register-button {
+  background-color: #28a745;
+
+  &:hover {
+    background-color: #218838;
+  }
+}
+
+// Styling für inaktive/ausverkaufte Stellenanzeigen
+.sold-out {
+  display: inline-block;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid #f5c6cb;
+}
+
+// Hinweistext, wenn keine Jobs vorhanden sind
+.container > p {
+  color: #666;
+  font-style: italic;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 4px;
+  border-left: 4px solid #ccc;
+}
+.filter-wrapper {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+
+  .filter-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+  }
+}
+.skill-box h4{
+  margin-top:0;
+}
+.btn-box{
+  display: grid;
+  align-items: flex-end;
+}

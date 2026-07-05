@@ -1,0 +1,20 @@
+
+{
+  "/job-api": {
+    "target": "https://www.arbeitnow.com",
+    "secure": true,
+    "changeOrigin": true, 
+    "headers": {    
+      "Content-Type": "application/json"
+    },       
+    "pathRewrite": {
+      "^/job-api": ""
+    }
+  }
+
+}
+
+	
+
+
+

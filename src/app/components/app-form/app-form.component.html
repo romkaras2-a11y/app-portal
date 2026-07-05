@@ -1,0 +1,171 @@
+<main class="container position-relative">
+        <!-- Lade-Overlay und Spinner -->
+      @if (isLoading()) {
+        <div class="loading-overlay">
+          <div class="spinner"></div>
+          <p>Deine Bewerbung wird sicher übertragen...</p>
+        </div>
+      } 
+      <!-- Fortschrittsanzeige -->
+      <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="(currentStep() / 3) * 100"></div>
+        <div class="progress-steps">
+          <div class="step-indicator" [class.active]="currentStep() >= 1">1</div>
+          <div class="step-indicator" [class.active]="currentStep() >= 2">2</div>
+          <div class="step-indicator" [class.active]="currentStep() >= 3">3</div>
+        </div>
+      </div>
+
+      @if (currentJob(); as job) {
+        <h2>Bewerbung als: {{ job.title }} ({{ job.location }})</h2>
+      }
+        
+    <form [formGroup]="appForm" (ngSubmit)="onSubmit()"> 
+      <!-- Step 1: Personal Information --> 
+      @if (currentStep() === 1) { 
+        <div formGroupName="personalInfo" class="step step-content" [class.active]="currentStep() === 1"> 
+          <h3>Persönliche Daten</h3>
+              <div class="form-group"> 
+                <label for="firstName">Vorname *</label> 
+                <input id="firstName" formControlName="firstName" type="text"> 
+                @if (personalInfo.get('firstName')?.errors?.['required']) { 
+                  <div class="error">Vorname ist ein Pflichtfeld</div> 
+                } 
+              </div> 
+              <div class="form-group"> 
+                <label for="lastName">Nachname *</label> 
+                <input id="lastName" formControlName="lastName" type="text"> 
+                @if (personalInfo.get('lastName')?.touched && personalInfo.get('lastName')?.errors?.['required']) { 
+                  <div class="error">Nachname ist ein Pflichtfeld.</div> 
+                } 
+              </div>  
+              <div class="form-group"> 
+                <label for="email">Email *</label> 
+                <input id="email" formControlName="email" type="email">  
+                @if (personalInfo.get('email')?.errors?.['email']) { 
+                  <div class="error">Ungültiges E-Mail-Format.</div> 
+                }
+                  <!-- Neue Fehlermeldung für den asynchronen Validator -->
+                @if (personalInfo.get('email')?.errors?.['emailTaken']) { 
+                  <div class="error">Diese E-Mail-Adresse enthält das verbotene Wort 'test' oder ist bereits vergeben.</div> 
+                } 
+              </div>
+            </div>  
+            <div class="form-group select-question-section">
+                <label for="channelSelect">Wie bist du auf uns aufmerksam geworden? * (Wähle mindestens eine Option)</label>
+                <select id="channelSelect" formControlName="channel" class="form-select">
+                  <option value="" disabled selected>Bitte eine Option auswählen...</option>
+                  @for (option of channelOptions; track option) {
+                    <option [value]="option">{{ option }}</option>
+                  }
+                </select>
+                <!-- Validierungsfehlermeldung -->
+                @if (channelControl?.touched && channelControl?.errors?.['required']) {
+                  <div class="error">Bitte wähle aus, wie du uns gefunden hast.</div>
+                }
+          </div>
+          <!-- DYNAMISCHES FREITEXTFELD: Wird nur bei "Sonstiges" eingeblendet -->
+          @if (channelControl?.value === 'Sonstiges (Bitte angeben)') {
+            <div class="form-group conditional-text-field">
+              <label for="channelOtherInput">Bitte gib an, wie du uns gefunden hast: *</label>
+              <input 
+                id="channelOtherInput" 
+                type="text" 
+                formControlName="channelOther" 
+                placeholder="z.B. Jobmesse, Zeitungsanzeige..."
+                class="form-control">
+
+              @if (channelOtherControl?.touched && channelOtherControl?.errors?.['required']) {
+                <div class="error">Bitte fülle dieses Feld aus, da du 'Sonstiges' ausgewählt hast.</div>
+              }
+            </div>
+}
+          <div class="step-navigation">             
+            <button type="button" [disabled]="personalInfo.invalid  || appForm.get('channel')?.invalid" (click)="nextStep()">Weiter</button>
+            <a class="btn-secondary" routerLink="/">Zurück zur Übersicht</a>
+          </div> 
+      }
+      <!-- Step 2: Work Experience -->
+      @if (currentStep() === 2) { 
+        <div formArrayName="experience" class="step step-content" [class.active]="currentStep() === 2"> 
+          <h3>Berufserfahrung</h3> 
+          
+          @for (exp of experienceControls; track exp; let i = $index) { 
+              <div [formGroupName]="i" class="card-entry"> 
+                <div class="form-group"> 
+                  <label>Firma *</label> 
+                  <input formControlName="company" type="text"> 
+                </div> 
+                 
+                <div class="form-group"> 
+                  <label>Position *</label> 
+                  <input formControlName="position" type="text"> 
+                </div> 
+                 
+                <div class="date-range" formGroupName="dates"> 
+                  <div class="form-group"> 
+                    <label>Startdatum *</label> 
+                    <input formControlName="startDate" type="date"> 
+                  </div> 
+                   
+                  @if (!exp.get('current')?.value) { 
+                    <div class="form-group"> 
+                      <label>Enddatum *</label> 
+                      <input formControlName="endDate" type="date"> 
+                    </div> 
+                  } 
+                </div>
+                @if (exp.get('dates')?.errors?.['invalidDateRange']) {
+                  <div class="error">Das Enddatum muss nach dem Startdatum liegen.</div>
+                }
+                <div class="form-group checkbox"> 
+                  <label> 
+                    <input formControlName="current" type="checkbox" (change)="toggleCurrentPosition(i)"> 
+                    Ich arbeite aktuell hier 
+                  </label> 
+                </div>              
+              <button type="button" class="btn-danger" (click)="removeExperience(i)">Eintrag entfernen</button>
+            </div> 
+          }          
+          <button type="button" class="btn-secondary" (click)="addExperience()">+ Erfahrung hinzufügen</button>  
+          
+            <div class="step-navigation"> 
+              <button type="button" (click)="previousStep()">Previous</button> 
+              <button type="button" (click)="nextStep()">Next</button>
+              <a class="btn-secondary" routerLink="/">Zurück zur Übersicht</a> 
+            </div> 
+        </div> 
+      }
+      <!-- Step 3: Documents --> 
+       @if (currentStep() === 3) { 
+          <div formGroupName="documents" class="step step-content" [class.active]="currentStep() === 3"> 
+              <h3>Dokumente (PDF, max. 5MB)</h3>
+              <div class="form-group"> 
+                <label for="cv">Lebenslauf (CV) *</label> 
+                <input id="cv" type="file" (change)="onFileSelected($event, 'cv')"> 
+                @if (documents.get('cv')?.errors?.['required']) { 
+                  <div class="error">CV is required</div> 
+                } 
+                @if (documents.get('cv')?.errors?.['invalidFileType']) { 
+                  <div class="error">Nur PDF-Dateien sind erlaubt.</div> 
+                } 
+                @if (documents.get('cv')?.errors?.['invalidFileSize']) { 
+                  <div class="error">Datei ist zu groß (Max. 5MB)</div> 
+                } 
+              </div> 
+              
+              <div class="form-group"> 
+                <label for="coverLetter">Anschreiben (Optional)</label> 
+                <input id="coverLetter" type="file" 
+                  (change)="onFileSelected($event, 'coverLetter')"> 
+              </div>
+              
+              <div class="step-navigation"> 
+                <button type="button" (click)="previousStep()">Previous</button>
+                <a class="btn-secondary" routerLink="/">Zurück zur Übersicht</a>  
+                <button type="submit" [disabled]="appForm.invalid">Bewerbung absenden</button> 
+              </div> 
+          </div>
+      } 
+    </form>
+</main>      
