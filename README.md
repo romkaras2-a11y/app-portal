@@ -60,7 +60,7 @@ Example:
 ```typescript
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/api'
+  apiUrl: 'http://localhost:4200/job-api/api/job-board-api/'
 };
 ```
 
@@ -73,7 +73,7 @@ Example:
 ```typescript
 export const environment = {
   production: true,
-  apiUrl: 'https://your-api.example.com/api'
+  apiUrl: 'https://www.arbeitnow.com/api/job-board-api/?tag=PHP,javascript,frontend,munich&limit=20&page=1'
 };
 ```
 
